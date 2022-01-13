@@ -3,8 +3,10 @@
 # on each cell (board position) we'll have a list consisting of:	
 #	the number on the cell, 0 if empty
 #	the sum of values in its vicinity
-# 
-# need to think about how to work with things when backtracking#
+#
+#	https://www.youtube.com/watch?v=m4Uth-EaTZ8&ab_channel=Numberphile
+#	https://oeis.org/A337663
+
 
 # board[y][x] = [1, 23]
 
