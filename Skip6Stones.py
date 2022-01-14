@@ -105,3 +105,5 @@ cProfile.run('tryToPlaceRecursive(2)')
 
 #lol I just saw I'm using an extra column? let's fix that by lowering max x and redcing the x of all 1s by 1
 #	this can save some time
+#try 6: 15.919 seconds
+#	not much, but it's an improvement!
