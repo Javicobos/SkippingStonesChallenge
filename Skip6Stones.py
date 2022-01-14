@@ -1,13 +1,13 @@
 #Solution at https://oeis.org/A337663 from Bert Dobbelaere
 #required y is 16
-#required x is 19
+#required x is 19 FIXED 18
 
 import cProfile
 
 board = []
 for num1 in range(16):	
 	board.append([])
-	for num2 in range(19):
+	for num2 in range(18):
 		board[num1].append([0,0])
 
 #def updateSums(y, x, newValue):
@@ -27,18 +27,18 @@ def updateSums(y, x, newValue):
 	board[y+1][x][1] += newValue
 	board[y+1][x+1][1] += newValue
 
-board[2][16][0] = 1
-updateSums(2,16,1)
-board[5][13][0] = 1
-updateSums(5,13,1)
-board[6][10][0] = 1
-updateSums(6,10,1)
-board[9][7][0] = 1
-updateSums(9,7,1)
-board[11][5][0] = 1
-updateSums(11,5,1)
-board[13][8][0] = 1
-updateSums(13,8,1)
+board[2][15][0] = 1
+updateSums(2,15,1)
+board[5][12][0] = 1
+updateSums(5,12,1)
+board[6][9][0] = 1
+updateSums(6,9,1)
+board[9][6][0] = 1
+updateSums(9,6,1)
+board[11][4][0] = 1
+updateSums(11,4,1)
+board[13][7][0] = 1
+updateSums(13,7,1)
 
 #print board
 def printPretty():
@@ -57,7 +57,7 @@ def printPretty():
 
 def tryToPlaceRecursive(value): 
 	for y,row in enumerate(board[1:15], 1): 
-		for x,column in enumerate(row[1:18], 1):
+		for x,column in enumerate(row[1:17], 1):
 			if column[1] == value and column[0] == 0:
 				board[y][x][0] = value
 				updateSums(y, x, value)
@@ -87,3 +87,21 @@ cProfile.run('tryToPlaceRecursive(2)')
 #try 4: 19.716 seconds
 #	that range must be in updatesums
 #	I'll try an ugly hardcoded version of updatesums
+#try 5: 16.387 seconds
+#	LETSGOOO
+#	we no longer spend time in range, and the time in updateSums went from around 5 seconds to 1.6
+
+#	an idea for further work: instead of transversing the whole matrix square each time, make a list of where each number can go
+#	so for example we write 2, update the sums of surrounding numbers, see 3, add those coordinates to list
+#	and now we'd have a list of 4 candidates for 3 tha we can choose from
+#	this heavily increases updateSums time as now it has to check for values greater than what we are placing and write the coordinates in the list
+#		it is also possible that we "ruin" a sum that was already written so it's not trivial to handle this and to make it fast
+#		we would have to check before we add, if we find a coincidence pop those coordinates from the og sum that was there
+#		then we would add the new number's coordinates to the corresponding place
+#		some questions arise here about speed:
+# 			do we check that a sum is in [value+1, 60] to write it? guessing we do
+# 			how to handle backtracking, if we keep a single list? not super sure right now
+# 			would this whole thing be worth it? i want to believe but honestly idk, will probably make an alt version of the program to check#
+
+#lol I just saw I'm using an extra column? let's fix that by lowering max x and redcing the x of all 1s by 1
+#	this can save some time
